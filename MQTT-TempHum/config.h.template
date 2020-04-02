@@ -1,0 +1,27 @@
+#pragma once
+
+//    REQUIRED CONFIGURATION     
+// WIFI //
+#define WIFI_SSID "<WIFI_SSID>"                        // your WIFI SSID
+#define WIFI_PASSWORD "<WIFI_PASSWORD>"                // your WIFI Password
+
+// MQTT //
+#define MQTT_BROKER   "<MQTT_BROKER_IP_OR_HOSTNAME>"   // your MQTT broker address or IP.
+#define MQTT_PORT     1883                             // your MQTT port (usually 1883 for unencrypted connection)
+#define MQTT_USERNAME "<MQTT_USER>"                    // your MQTT username
+#define MQTT_PASSWORD "<MQTT_PASSWORD>"                // your MQTT password
+
+//DEVICE CONFIG //
+#define MQTT_DEVICENAME "TempHum"
+#define MQTT_TOPIC "homeassistant/sensors/"
+#define MQTT_CMD_OFFSET "offset"
+#define MQTT_CMD_INTERVAL "interval"
+#define MQTT_TOPIC_CHECKIN "checkIn"
+#define MQTT_TOPIC_LASTWILL "LWT"
+
+// DHT
+#define DHTPIN 2
+#define DHTTYPE DHT22
+
+//Short average number
+#define SHORTAVGNUM 10

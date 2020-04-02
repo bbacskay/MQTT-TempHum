@@ -1,0 +1,3 @@
+.vscode/
+build/
+MQTT-TempHum/config.h

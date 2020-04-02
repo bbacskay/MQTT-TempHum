@@ -1,0 +1,9 @@
+[submodule "libraries/DHT-sensor-library"]
+	path = libraries/DHT-sensor-library
+	url = https://github.com/adafruit/DHT-sensor-library
+[submodule "libraries/PubSubClient"]
+	path = libraries/PubSubClient
+	url = https://github.com/knolleary/pubsubclient.git
+[submodule "libraries/Adafruit_Unified_Sensor"]
+	path = libraries/Adafruit_Unified_Sensor
+	url = https://github.com/adafruit/Adafruit_Sensor
