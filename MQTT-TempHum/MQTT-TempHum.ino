@@ -5,8 +5,10 @@
 
 #include "config.h"
 
-#define TEMPHUM_VERSION "1.0.0"
+#define TEMPHUM_VERSION "1.1.0"
 #define TEMPHUM_VERSION_FULL TEMPHUM_VERSION " " ARDUINO_BOARD
+
+#define MQTT_COMPONENT "sensor"
 
 char mqttDeviceName[30];
 char mqttTopicValue[80];
@@ -64,8 +66,8 @@ void sendDiscovery() {
     sprintf(uniqueIdTemp, "%s-temperature", mqttDeviceName);
     sprintf(uniqueIdHum,  "%s-humidity", mqttDeviceName);
 
-    sprintf(mqttDiscoveryTempTopic, "homeassistant/sensor/%s/config", uniqueIdTemp);
-    sprintf(mqttDiscoveryHumTopic, "homeassistant/sensor/%s/config", uniqueIdHum);
+    sprintf(mqttDiscoveryTempTopic, "%s/%s/%s/config", MQTT_DISCOVERY_BASE_TOPIC, MQTT_COMPONENT, uniqueIdTemp);
+    sprintf(mqttDiscoveryHumTopic, "%s/%s/%s/config", MQTT_DISCOVERY_BASE_TOPIC, MQTT_COMPONENT, uniqueIdHum);
 
     sprintf(nameTemp, "%s Temperature", mqttDeviceName);
     sprintf(nameHum , "%s Humidity"   , mqttDeviceName);
@@ -170,11 +172,11 @@ void setup()
   Serial.print("Devicename:");
   Serial.println(mqttDeviceName);
   
-	sprintf(mqttTopicValue, "%s%s/value", MQTT_TOPIC, mqttDeviceName);
-	sprintf(mqttCmdOffset, "%s%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_CMD_OFFSET);
-	sprintf(mqttCmdInterval, "%s%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_CMD_INTERVAL);
-  sprintf(mqttTopicCheckIn, "%s%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_TOPIC_CHECKIN);
-  sprintf(mqttTopicLwt, "%s%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_TOPIC_LASTWILL);
+	sprintf(mqttTopicValue, "%s/%s/value", MQTT_TOPIC, mqttDeviceName);
+	sprintf(mqttCmdOffset, "%s/%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_CMD_OFFSET);
+	sprintf(mqttCmdInterval, "%s/%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_CMD_INTERVAL);
+  sprintf(mqttTopicCheckIn, "%s/%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_TOPIC_CHECKIN);
+  sprintf(mqttTopicLwt, "%s/%s/%s", MQTT_TOPIC, mqttDeviceName, MQTT_TOPIC_LASTWILL);
 
   #ifdef DEBUG
   Serial.printf("mqttTopicValue (%d) : %s\n", strlen(mqttTopicValue), mqttTopicValue);
@@ -264,11 +266,11 @@ void getTemperatureAndHumidityData()
   // Read temperature as Celsius (the default)
   t = dht.readTemperature();
 
-/*
+  #ifdef TEST
   // Test data
 	h = 50;
 	t = 23.5;
-*/
+  #endif
 
 	t += tempOffset;
 

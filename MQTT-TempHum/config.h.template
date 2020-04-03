@@ -2,26 +2,40 @@
 
 //    REQUIRED CONFIGURATION     
 // WIFI //
-#define WIFI_SSID "<WIFI_SSID>"                        // your WIFI SSID
-#define WIFI_PASSWORD "<WIFI_PASSWORD>"                // your WIFI Password
+#define WIFI_SSID "<WIFI_SSID>"                     // your WIFI SSID
+#define WIFI_PASSWORD "<WIFI_PASSWORD>"             // your WIFI Password
 
-// MQTT //
-#define MQTT_BROKER   "<MQTT_BROKER_IP_OR_HOSTNAME>"   // your MQTT broker address or IP.
-#define MQTT_PORT     1883                             // your MQTT port (usually 1883 for unencrypted connection)
-#define MQTT_USERNAME "<MQTT_USER>"                    // your MQTT username
-#define MQTT_PASSWORD "<MQTT_PASSWORD>"                // your MQTT password
+// MQTT BROKER CONFIG //
+#define MQTT_BROKER   "<MQTT_BROKER_IP_OR_HOSTNAME>"// your MQTT broker address or IP.
+#define MQTT_PORT     1883                          // your MQTT port (usually 1883 for unencrypted connection)
+#define MQTT_USERNAME "<MQTT_USER>"                 // your MQTT username
+#define MQTT_PASSWORD "<MQTT_PASSWORD>"             // your MQTT password
 
 //DEVICE CONFIG //
-#define MQTT_DEVICENAME "TempHum"
-#define MQTT_TOPIC "homeassistant/sensors/"
-#define MQTT_CMD_OFFSET "offset"
-#define MQTT_CMD_INTERVAL "interval"
-#define MQTT_TOPIC_CHECKIN "checkIn"
-#define MQTT_TOPIC_LASTWILL "LWT"
+#define MQTT_DEVICENAME "TempHum"                   // Name prefix for this device 
+                                                    // ('_<ESP ChipID>' will be added to make the name unique)
+#define MQTT_DISCOVERY_BASE_TOPIC "homeassistant"   // Base topic for Home Assistant MQTT discovery
+#define MQTT_TOPIC "home"                           // Base topic for state and setting variables 
+#define MQTT_CMD_OFFSET "offset"                    // Topic for temperature offset to calibrate the temperature sensor
+#define MQTT_CMD_INTERVAL "interval"                // Measurement value refresh interval
+#define MQTT_TOPIC_CHECKIN "checkIn"                // Reason of restart
+#define MQTT_TOPIC_LASTWILL "LWT"                   // Last will / availability topic
 
 // DHT
-#define DHTPIN 2
-#define DHTTYPE DHT22
+#define DHTPIN 2                                    // Pin number for the DHT sensor
+#define DHTTYPE DHT22                               // DHT sensor type (DHT11, DHT12, DHT22, DHT21, AM2301)
 
 //Short average number
-#define SHORTAVGNUM 10
+#define SHORTAVGNUM 10                              // Number of measurements used for average caluculation
+
+
+
+/*
+    Developer options
+*/
+//Debug
+//#define DEBUG 1
+
+// If defined - No DHT22, send test values
+//#define TEST 1
+
