@@ -5,7 +5,7 @@
 
 #include "config.h"
 
-#define TEMPHUM_VERSION "1.1.0"
+#define TEMPHUM_VERSION "1.1.1"
 #define TEMPHUM_VERSION_FULL TEMPHUM_VERSION " " ARDUINO_BOARD
 
 #define MQTT_COMPONENT "sensor"
