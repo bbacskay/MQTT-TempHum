@@ -38,7 +38,7 @@ unsigned char tempAvgPos;
 float avgTemp;
 
 float tempOffset;
-int interval = 1;
+unsigned int interval = 1;
 
 bool first = true;
 bool boot = true;
@@ -59,8 +59,8 @@ void sendDiscovery() {
     char mqttDiscoveryTempTopic[80];
     char mqttDiscoveryHumTopic[80];
     
-    char nameTemp[40];
-    char nameHum[40];
+    char nameTemp[80];
+    char nameHum[80];
 
 
     sprintf(uniqueIdTemp, "%s-temperature", mqttDeviceName);
@@ -157,7 +157,7 @@ void sendDiscovery() {
     client.beginPublish(mqttDiscoveryHumTopic,jsonBufferSize-1,true);
     client.write((uint8_t*)b,jsonBufferSize-1);
     client.endPublish();
-    
+   
   }
 
 void setup()
@@ -196,6 +196,7 @@ void setup()
   lastSend = 0;
 	lastMeasured = 0;
 	tempAvgPos = 0;
+
 }
 
 void loop()
@@ -209,12 +210,14 @@ void loop()
     getTemperatureAndHumidityData();
 		if (!isnan(t)) {
 			if (first == true) {
+        #ifdef DEBUG
+        Serial.println("First cycle");
+        #endif
 				// In the first cycle fill the array with the same value
 				unsigned char i;
-				for (i=0;i++;i<SHORTAVGNUM)
+				for (i=0;i<SHORTAVGNUM;i++)
 				{
 					temperatures[i] = t;
-					//Serial.println(i);
 				}
 				first = false;
 			} else {
@@ -240,7 +243,7 @@ void loop()
 	if (isnan(h) || isnan(t)) {
 		Serial.println("Failed to read from DHT sensor!");
 	} else {
-		if ( millis() - lastSend > interval * 1000 ) {
+		if (( millis() - lastSend > interval * 1000 ) && (!first)) {
 		sendData();
 	
 		lastSend = millis();
@@ -279,7 +282,7 @@ void getTemperatureAndHumidityData()
   Serial.print(" %\t");
   Serial.print("Temperature: ");
   Serial.print(t);
-  Serial.print(" *C ");
+  Serial.println(" *C ");
 
 }
 
@@ -426,7 +429,7 @@ void mqttCallback(char* topic, byte* payload, unsigned int length) {
 	if (newTopic == mqttCmdInterval)
 	{
 		if (( intPayload > 0 ) && ( intPayload < 600 )) {
-			interval = intPayload;
+			interval = (unsigned int)intPayload;
 			} else {
 			interval = 1;
 		}
